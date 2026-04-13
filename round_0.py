@@ -11,7 +11,7 @@ class Trader:
         order_depth: OrderDepth = state.order_depths[product]
         largest_bid_price, largest_bid = max(order_depth.buy_orders.items(), key=lambda x: x[1])
         largest_ask_price, largest_ask = max(order_depth.sell_orders.items(), key=lambda x: abs(x[1]))
-        wall_mid = (largest_bid + largest_ask) / 2
+        wall_mid = (largest_bid_price + largest_ask_price) / 2
         
         return wall_mid, largest_bid, largest_ask 
 
@@ -19,30 +19,25 @@ class Trader:
         order_depth: OrderDepth = state.order_depths[product]
         buy_orders = sorted(order_depth.buy_orders.items(), reverse=True)
         sell_orders = sorted(order_depth.sell_orders.items())
-        position = state.position[product]
+        position = state.position.get(product, 0)
         orders = []
 
         # a) take strongest bid/asks
-        if len(buy_orders) != 0:
-            best_bid_price, best_bid_volume = buy_orders[0]
-            if best_bid_price < true_value:
-                # We need to see if this exceeds inventory
-                if position + best_bid_volume > 10:
-                    difference = 10 - (position + best_bid_volume)
-                    orders.append(Order(product, 10000, difference))
-                    position += difference
-                orders.append(Order(product, best_bid_price, best_bid_volume))
-                position += best_bid_volume
-
-        if len(sell_orders) != 0:
+        if sell_orders:
             best_ask_price, best_ask_volume = sell_orders[0]
-            if best_ask_price > true_value:
-                if position + best_ask_volume < -10:
-                    difference = -10 - (position + best_ask_volume)
-                    orders.append(Order(product, 10000, difference))
-                    position += difference
-                orders.append(Order(product, best_ask_price, best_ask_volume))
-                position += best_ask_volume
+            if best_ask_price < true_value:
+                buy_qty = min(10 - position, -best_ask_volume)
+                if buy_qty > 0:
+                    orders.append(Order(product, best_ask_price, buy_qty))
+                    position += buy_qty
+
+        if buy_orders:
+            best_bid_price, best_bid_volume = buy_orders[0]
+            if best_bid_price > true_value:
+                sell_qty = min(10 + position, best_bid_volume)
+                if sell_qty > 0:
+                    orders.append(Order(product, best_bid_price, -sell_qty))
+                    position -= sell_qty
 
         return orders
     

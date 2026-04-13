@@ -20,10 +20,10 @@ order_depths = {
 	"TOMATOES": OrderDepth(),	
 }
 
-order_depths["EMERALDS"].buy_orders={10: 7, 9: 5}
-order_depths["EMERALDS"].sell_orders={12: -5, 13: -3}
-order_depths["TOMATOES"].buy_orders={142: 3, 141: 5}
-order_depths["TOMATOES"].sell_orders={144: -5, 145: -8}
+order_depths["EMERALDS"].buy_orders={9998: 7, 10002: 5}
+order_depths["EMERALDS"].sell_orders={9998: -5, 10002: -3}
+order_depths["TOMATOES"].buy_orders={9998: 7, 10002: 5}
+order_depths["TOMATOES"].sell_orders={9998: -5, 10002: -3}
 
 own_trades = {
 	"EMERALDS": [
