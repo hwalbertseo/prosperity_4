@@ -1,0 +1,14 @@
+Round 0
+1. There are two products.
+    A. Emeralds
+        a. Fixed true price at 10000. Same product as rainforest resin in prosperity 3. 
+    B. Tomatoes.
+        a. Fluctuating true price. I'm guessing, similar to Kelp from last year, the best estimate for the true price will be the wall-mid.
+            Wall-mid: the mean of the bid wall and the ask wall.
+            bid wall/ask wall: bid/ask levels with consistantly large resting size. So if there's a large number of bids at 100, 100 is the bid wall. Same with asks.
+2. Strategies
+    A. Emeralds
+        a. Since the true price is fixed at 10000, the strategy should be to take the best bid/asks while placing quotes that will 100% be taken (so overbidding and overasking). 
+            Use this as an exerciese.
+    B. Tomatoes
+        b. Same, just use the wall mid as the true price. 
